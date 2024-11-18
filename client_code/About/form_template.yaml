@@ -1,0 +1,16 @@
+components_by_slot:
+  slot_1:
+  - layout_properties: {}
+    name: rich_text_1
+    properties:
+      content: |
+        #### Objective
+        >This project serves to me as a practical learning experience in data analysis and web development.​
+        #### Data Source
+        The utilized data is provided by the **Deutscher Wetterdienst** (DWD), the German National Meteorological Service. The data is part of DWD's open data collection available at their [opendata](https://opendata.dwd.de) site. ​
+
+        #### Data Usage and Copyright
+        It's essential to respect the copyright and usage regulations set forth by the DWD. For detailed information, please visit the [DWD](https://www.dwd.de) website.
+    type: RichText
+is_package: true
+layout: {type: 'form:ceb_layout'}

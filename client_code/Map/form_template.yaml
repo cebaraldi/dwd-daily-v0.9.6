@@ -1,0 +1,14 @@
+components_by_slot:
+  slot_1:
+  - event_bindings: {change: drop_down_region_change}
+    layout_properties: {}
+    name: drop_down_region
+    properties: {include_placeholder: true, placeholder: <Please select a region>}
+    type: DropDown
+  - event_bindings: {}
+    layout_properties: {}
+    name: map_of_germany
+    properties: {height: 552}
+    type: GoogleMap
+is_package: true
+layout: {type: 'form:ceb_layout'}

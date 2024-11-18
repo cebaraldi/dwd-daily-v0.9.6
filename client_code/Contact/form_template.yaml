@@ -1,0 +1,43 @@
+components_by_slot:
+  slot_1:
+  - layout_properties: {}
+    name: label_1
+    properties: {role: display, text: Contact}
+    type: Label
+  - components:
+    - layout_properties: {col_xs: 0, row: HMFVGJ, width_xs: 3}
+      name: label_2
+      properties: {spacing_above: none, spacing_below: none, text: 'Name:'}
+      type: Label
+    - layout_properties: {col_xs: 0, row: RDTLVW, width_xs: 12}
+      name: tb_name
+      properties: {}
+      type: TextBox
+    - layout_properties: {col_xs: 0, row: PHXTHT, width_xs: 3}
+      name: label_3
+      properties: {spacing_above: none, spacing_below: none, text: 'Email:'}
+      type: Label
+    - layout_properties: {col_xs: 0, row: URGPKQ, width_xs: 12}
+      name: tb_email
+      properties: {}
+      type: TextBox
+    - layout_properties: {col_xs: 0, row: LUCCEB, width_xs: 3}
+      name: label_4
+      properties: {spacing_above: none, spacing_below: none, text: 'Comments / Suggestions:'}
+      type: Label
+    layout_properties: {}
+    name: grid_panel_1
+    properties: {}
+    type: GridPanel
+  - event_bindings: {change: ta_feeback_change}
+    layout_properties: {}
+    name: ta_feeback
+    properties: {height: 183}
+    type: TextArea
+  - event_bindings: {click: bt_submit_click}
+    layout_properties: {}
+    name: bt_submit
+    properties: {role: elevated-button, text: Submit}
+    type: Button
+is_package: true
+layout: {type: 'form:ceb_layout'}

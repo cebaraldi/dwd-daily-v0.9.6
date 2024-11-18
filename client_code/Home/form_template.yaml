@@ -1,0 +1,95 @@
+components_by_slot:
+  slot_1:
+  - components:
+    - layout_properties: {grid_position: 'NEEJWW,KHHGGB'}
+      name: cb_recent
+      properties: {checked: true, text: Recent}
+      type: CheckBox
+    - layout_properties: {grid_position: 'NEEJWW,ZAFXXW'}
+      name: cb_historical
+      properties: {enabled: true, text: Historical}
+      type: CheckBox
+    - layout_properties: {grid_position: 'NEEJWW,SJNIIG'}
+      name: cb_statistics
+      properties: {enabled: false, text: Summary statistics}
+      type: CheckBox
+    layout_properties: {}
+    name: outlined_card_1
+    properties: {role: outlined-card}
+    type: ColumnPanel
+  - components:
+    - event_bindings: {clicked: rb_temperature_clicked}
+      layout_properties: {grid_position: 'WINWGJ,DEYCCT'}
+      name: rb_temperature
+      properties: {group_name: radioGroup1, selected: true, spacing_above: none, spacing_below: none, text: Air temperature}
+      type: RadioButton
+    - event_bindings: {clicked: rb_precipitation_clicked}
+      layout_properties: {grid_position: 'WINWGJ,OZYXAM'}
+      name: rb_precipitation
+      properties: {group_name: radioGroup1, spacing_above: none, spacing_below: none, text: Precipitation}
+      type: RadioButton
+    - event_bindings: {clicked: rb_humidity_clicked}
+      layout_properties: {grid_position: 'WINWGJ,SBGYJM'}
+      name: rb_humidity
+      properties: {group_name: radioGroup1, spacing_above: none, spacing_below: none, text: Relative humidity}
+      type: RadioButton
+    - event_bindings: {clicked: rb_wind_speed_clicked}
+      layout_properties: {grid_position: 'TUYLHG,YKUKLO'}
+      name: rb_wind_speed
+      properties: {spacing_above: none, spacing_below: none, text: Wind speed}
+      type: RadioButton
+    - event_bindings: {clicked: rb_wind_gust_clicked}
+      layout_properties: {grid_position: 'TUYLHG,JJPUWG'}
+      name: rb_wind_gust
+      properties: {spacing_above: none, spacing_below: none, text: Wind gust}
+      type: RadioButton
+    - event_bindings: {clicked: rb_air_pressure_clicked}
+      layout_properties: {grid_position: 'TUYLHG,KEGKWZ'}
+      name: rb_air_pressure
+      properties: {spacing_above: none, spacing_below: none, text: Air pressure}
+      type: RadioButton
+    - event_bindings: {clicked: rb_vapor_pressure_clicked}
+      layout_properties: {grid_position: 'XJEYGN,PEBLES'}
+      name: rb_vapor_pressure
+      properties: {spacing_above: none, spacing_below: none, text: Vapor pressure}
+      type: RadioButton
+    - event_bindings: {clicked: rb_surface_temperature_clicked}
+      layout_properties: {grid_position: 'XJEYGN,USDMQO'}
+      name: rb_surface_temperature
+      properties: {spacing_above: none, spacing_below: none, text: Surface temperature}
+      type: RadioButton
+    - event_bindings: {clicked: rb_sunshine_duration_clicked}
+      layout_properties: {grid_position: 'XJEYGN,TZQMMA'}
+      name: rb_sunshine_duration
+      properties: {spacing_above: none, spacing_below: none, text: Sunshine duration}
+      type: RadioButton
+    - event_bindings: {clicked: rb_snow_cover_clicked}
+      layout_properties: {grid_position: 'HMQJBX,FRKLQB'}
+      name: rb_snow_cover
+      properties: {text: Snow Cover}
+      type: RadioButton
+    layout_properties: {}
+    name: outlined_card_2
+    properties: {role: outlined-card}
+    type: ColumnPanel
+  - components:
+    - event_bindings: {change: dd_regions_change}
+      layout_properties: {grid_position: 'RJKBCJ,IBTRPX'}
+      name: dd_regions
+      properties: {include_placeholder: true, placeholder: <Please select a region>}
+      type: DropDown
+    - event_bindings: {change: dd_stations_change}
+      layout_properties: {grid_position: 'RJKBCJ,IWGHXS'}
+      name: dd_stations
+      properties: {enabled: false, include_placeholder: true, placeholder: <Please select a station>}
+      type: DropDown
+    layout_properties: {}
+    name: outlined_card_3
+    properties: {role: outlined-card}
+    type: ColumnPanel
+  - layout_properties: {}
+    name: plot_1
+    properties: {}
+    type: Plot
+is_package: true
+layout: {type: 'form:ceb_layout'}
