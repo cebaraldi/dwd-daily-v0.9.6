@@ -19,7 +19,7 @@ db_schema:
     server: full
     title: feedback
 dependencies: []
-name: Clone of DWD Daily
+name: DWD Daily v0.9.6
 native_deps: null
 package_name: DWD_Daily
 renamed: true
