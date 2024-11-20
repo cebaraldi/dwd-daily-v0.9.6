@@ -94,15 +94,15 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
     """
     if not recent and not historical:
         recent = True
-    protocol = 'https://'
-    domain_name = 'opendata.dwd.de'
-    path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
+    #protocol = 'https://'
+    #domain_name = 'opendata.dwd.de'
+    #path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
     if recent:
-        recent_path = path + 'recent/'
+        #recent_path = path + 'recent/'
         filename = f'tageswerte_KL_{wsid}_akt.zip'
 
         # Extract file from archive
-        url = protocol + domain_name + recent_path + filename
+        url = Globals.protocol + Globals.domain_name + Globals.recent_path + filename
         r = requests.get(url)
         body = {}
         with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:   
@@ -114,12 +114,12 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
         if not historical:
             dfh = dfr[0:0]
     if historical:
-        historical_path = path + 'historical/'
+        #historical_path = path + 'historical/'
 
         # Extract filename from remote directory using wildcards
-        ftp = FTP(domain_name)
+        ftp = FTP(Globals.domain_name)
         ftp.login('anonymous', 'guest')
-        ftp.cwd(historical_path)
+        ftp.cwd(Globals.historical_path)
         # List files in directory
         files = ftp.nlst()
         # Filter files based on wildcard pattern
@@ -128,7 +128,7 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
         ftp.quit()
     
         # Extract file from archive
-        url = protocol + domain_name + historical_path + matching_files.pop()
+        url = Globals.protocol + Globals.domain_name + Globals.historical_path + matching_files.pop()
         h = requests.get(url)
         body = {}
         with closing(h), zipfile.ZipFile(io.BytesIO(h.content)) as archive:   

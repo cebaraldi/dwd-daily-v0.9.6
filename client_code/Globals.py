@@ -9,11 +9,14 @@ de_lon = 9.4
 de_zoom = 6.2
 
 # DWD url
-url = 'https://opendata.dwd.de/'
+protocol = 'https://'
+domain_name = 'opendata.dwd.de/'
+#url = 'https://opendata.dwd.de/'
 path = 'climate_environment/CDC/observations_germany/climate/daily/kl/'
 recent_path = path + 'recent/'
 historical_path = path + 'historical/'
 filename = 'KL_Tageswerte_Beschreibung_Stationen.txt'
+metadata = 'KL_Tageswerte_Beschreibung_Stationen.txt'
 
 # Dictionary for region dropdown component
 regions = {}
