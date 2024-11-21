@@ -25,14 +25,15 @@ def extract_observables(self):
         if not self.cb_recent.checked and not self.cb_historical.checked:
             self.cb_recent.checked = True
         with Notification(f'Downloading observations of {Globals.weather_station}, please wait...'):
-          Globals.observations = anvil.server.call('dl_zip', wsid, date_from, date_to, 
-                                  Globals.protocol,
-                                  Globals.domain_name,
-                                  Globals.path,
-                                  self.cb_recent.checked, 
-                                  self.cb_historical.checked
-                                  ) # Main
-          Globals.observations_loaded =  True
+            Globals.observations = anvil.server.call('dl_zip',
+                                                     wsid, date_from, date_to,
+                                                     Globals.protocol,
+                                                     Globals.domain_name,
+                                                     Globals.path,
+                                                     self.cb_recent.checked,
+                                                     self.cb_historical.checked
+            ) # Main
+            Globals.observations_loaded =  True
     obsdate = Globals.observations['MESS_DATUM']
   
     # Do plot w/ multiple observables on the server side (plotly on client cannot )

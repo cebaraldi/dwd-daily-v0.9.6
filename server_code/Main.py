@@ -98,10 +98,10 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
     #path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
     if recent:
         recent_path = path + 'recent/'
-        filename = f'tageswerte_KL_{wsid}_akt.zip'
+        observations = f'tageswerte_KL_{wsid}_akt.zip'
 
         # Extract file from archive
-        url = protocol + domain_name + recent_path + filename
+        url = protocol + domain_name + recent_path + observations
         r = requests.get(url)
         body = {}
         with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:   
@@ -114,6 +114,7 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
             dfh = dfr[0:0]
     if historical:
         historical_path = path + 'historical/'
+        print(historical_path)
 
         # Extract filename from remote directory using wildcards
         ftp = FTP(domain_name)
@@ -125,9 +126,11 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
         pattern = f'tageswerte_KL_{wsid}_{pd.to_datetime(date_from).strftime("%Y%m%d")}_*_hist.zip'
         matching_files = fnmatch.filter(files, pattern) # TODO: check if more than one match.
         ftp.quit()
+        print('file found ... ')
     
         # Extract file from archive
         url = protocol + domain_name + historical_path + matching_files.pop()
+        print(url)
         h = requests.get(url)
         body = {}
         with closing(h), zipfile.ZipFile(io.BytesIO(h.content)) as archive:   
