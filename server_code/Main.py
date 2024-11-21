@@ -1,20 +1,20 @@
+from anvil.tables import app_tables
+from contextlib import closing
+from datetime import datetime
+from ftplib import FTP
+from urllib.request import urlretrieve
 import anvil.email
+import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
-from anvil.tables import app_tables
-import anvil.server
-from datetime import datetime
-import os.path
-import requests
 import csv
-import io
-import zipfile
-from urllib.request import urlretrieve
-import pandas as pd
-from contextlib import closing
-import json
 import fnmatch
-from ftplib import FTP
+import io
+import json
+import os.path
+import pandas as pd
+import requests
+import zipfile
 
 @anvil.server.callable
 def dl_weather_stations(url):
@@ -78,13 +78,16 @@ def dict_to_dataframe(data_dict):
     return(df)  
   
 @anvil.server.callable
-def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, historical):
+def dl_zip(wsid, date_from, date_to, scheme, host, path, recent, historical):
     """Downloads daily weather data from opendata.dwd.de for a given weather station id and two different periods; recent and historical.
 
     Args:
       wsid: The weather station identifier.
       date_from: The start date of observations.
       date_to: The end date of observations.
+      scheme: The protocol or protocol of the url.
+      host: The domain name.
+      path: The path of the domeain.
       recent: Observations w/ not yet completed quality check.
       historical: Observations w/ completed quality check.
 
@@ -93,15 +96,15 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
     """
     if not recent and not historical:
         recent = True
-    #protocol = 'https://'
-    #domain_name = 'opendata.dwd.de'
-    #path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
+    # protocol = 'https://'
+    # domain_name = 'opendata.dwd.de'
+    # domain_path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
     if recent:
-        recent_path = path + 'recent/'
-        observations = f'tageswerte_KL_{wsid}_akt.zip'
+        recent_path = path + '/' + 'recent'
+        filename = f'tageswerte_KL_{wsid}_akt.zip'
 
         # Extract file from archive
-        url = protocol + domain_name + recent_path + observations
+        url = scheme + '://' + host + '/' + recent_path + '/' + filename
         r = requests.get(url)
         body = {}
         with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:   
@@ -113,11 +116,10 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
         if not historical:
             dfh = dfr[0:0]
     if historical:
-        historical_path = path + 'historical/'
-        print(historical_path)
+        historical_path = path + '/' + 'historical'
 
         # Extract filename from remote directory using wildcards
-        ftp = FTP(domain_name)
+        ftp = FTP(host) 
         ftp.login('anonymous', 'guest')
         ftp.cwd(historical_path)
         # List files in directory
@@ -126,11 +128,9 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
         pattern = f'tageswerte_KL_{wsid}_{pd.to_datetime(date_from).strftime("%Y%m%d")}_*_hist.zip'
         matching_files = fnmatch.filter(files, pattern) # TODO: check if more than one match.
         ftp.quit()
-        print('file found ... ')
     
         # Extract file from archive
-        url = protocol + domain_name + historical_path + matching_files.pop()
-        print(url)
+        url = scheme + '://' + host + '/' + historical_path + '/' + matching_files.pop()
         h = requests.get(url)
         body = {}
         with closing(h), zipfile.ZipFile(io.BytesIO(h.content)) as archive:   
@@ -142,13 +142,12 @@ def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, histor
         if not recent:
           dfr = dfh[0:0]
     
-    # Merge downloaded data frames w/ only recent data not in historical
-    #df = pd.concat([dfr, dfh])
+    # Merge downloaded data frames
     df = pd.concat([
         dfh,
         dfr[dfr['MESS_DATUM'].isin(dfh['MESS_DATUM']) == False]
-    ])
-
+    ])    
+    #df = pd.concat([dfr, dfh])
     df = df.drop('STATIONS_ID', axis=1) # already given as parameter
     dict_list = df.to_dict('list')
     return(dict_list)

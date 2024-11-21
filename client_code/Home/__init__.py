@@ -26,9 +26,11 @@ def extract_observables(self):
             self.cb_recent.checked = True
         with Notification(f'Downloading observations of {Globals.weather_station}, please wait...'):
             Globals.observations = anvil.server.call('dl_zip',
-                                                     wsid, date_from, date_to,
-                                                     Globals.protocol,
-                                                     Globals.domain_name,
+                                                     wsid, 
+                                                     date_from, 
+                                                     date_to,
+                                                     Globals.scheme,
+                                                     Globals.host,
                                                      Globals.path,
                                                      self.cb_recent.checked,
                                                      self.cb_historical.checked
@@ -136,8 +138,8 @@ class Home(HomeTemplate):
         
         # Download weather stations and fill dropdown component for region selection
         if not Globals.weather_stations_loaded:
-            #url = Globals.protocol + Globals.domain_name + Globals.historical_path + Globals.metadata
-            url = Globals.protocol + Globals.domain_name + Globals.recent_path + Globals.metadata
+            #url = Globals.scheme + '://' + Globals.host + '/' + Globals.historical_path + '/' + Globals.metadata
+            url = Globals.scheme + '://' + Globals.host + '/' + Globals.recent_path + '/' + Globals.metadata
             Globals.weather_stations = anvil.server.call('dl_weather_stations', url) # Main
             Globals.weather_stations_loaded = True
         Globals.regions = sorted(list(set(Globals.weather_stations['region'])))
