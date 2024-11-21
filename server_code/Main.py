@@ -16,9 +16,8 @@ import json
 import fnmatch
 from ftplib import FTP
 
-
 @anvil.server.callable
-def dl_to_weather_stations(url):
+def dl_weather_stations(url):
     response = requests.get(url)
     if response.status_code == 200:
         lines = response.text.splitlines()
@@ -79,7 +78,7 @@ def dict_to_dataframe(data_dict):
     return(df)  
   
 @anvil.server.callable
-def dl_zip(wsid, date_from, date_to, recent, historical):
+def dl_zip(wsid, date_from, date_to, protocol, domain_name, path, recent, historical):
     """Downloads daily weather data from opendata.dwd.de for a given weather station id and two different periods; recent and historical.
 
     Args:
@@ -98,11 +97,11 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
     #domain_name = 'opendata.dwd.de'
     #path = '/climate_environment/CDC/observations_germany/climate/daily/kl/'
     if recent:
-        #recent_path = path + 'recent/'
+        recent_path = path + 'recent/'
         filename = f'tageswerte_KL_{wsid}_akt.zip'
 
         # Extract file from archive
-        url = Globals.protocol + Globals.domain_name + Globals.recent_path + filename
+        url = protocol + domain_name + recent_path + filename
         r = requests.get(url)
         body = {}
         with closing(r), zipfile.ZipFile(io.BytesIO(r.content)) as archive:   
@@ -114,12 +113,12 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
         if not historical:
             dfh = dfr[0:0]
     if historical:
-        #historical_path = path + 'historical/'
+        historical_path = path + 'historical/'
 
         # Extract filename from remote directory using wildcards
-        ftp = FTP(Globals.domain_name)
+        ftp = FTP(domain_name)
         ftp.login('anonymous', 'guest')
-        ftp.cwd(Globals.historical_path)
+        ftp.cwd(historical_path)
         # List files in directory
         files = ftp.nlst()
         # Filter files based on wildcard pattern
@@ -128,7 +127,7 @@ def dl_zip(wsid, date_from, date_to, recent, historical):
         ftp.quit()
     
         # Extract file from archive
-        url = Globals.protocol + Globals.domain_name + Globals.historical_path + matching_files.pop()
+        url = protocol + domain_name + historical_path + matching_files.pop()
         h = requests.get(url)
         body = {}
         with closing(h), zipfile.ZipFile(io.BytesIO(h.content)) as archive:   
